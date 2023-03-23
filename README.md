@@ -129,14 +129,15 @@ $ npm start
    2. Update package.json set type: module
    3. Add .js to imports
    4. npm install express
-   5. create server.js
-   6. add start command as node backend/server.js
-   7. require express
-   8. create route for / return backend is ready.
-   9. move products.js from frontend to backend
-   10. create route for /api/products
-   11. return products
-   12. run npm start
+   5. npm install --save -dev nodemon and after install package.json scripts: {start: "nodemon --watch backend --exec node --experimental-modules backend/server.js" }
+   6. create server.js
+   7. add start command as node backend/server.js
+   8. require express
+   9. create route for / return backend is ready.
+   10. move products.js from frontend to backend
+   11. create route for /api/products
+   12. return products
+   13. run npm start
 10. Load Products From Backend
     1. edit HomeScreen.js
     2. define products, loading and error.
