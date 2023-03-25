@@ -5,11 +5,15 @@ import {
   legacy_createStore,
 } from 'redux';
 import thunk from 'redux-thunk';
-import productListReducers from './reducers/productReducers';
+import {
+  productListReducers,
+  detailsProductReducers,
+} from './reducers/productReducers';
 const initialState = {};
 
 const reducer = combineReducers({
   productList: productListReducers,
+  productDetails: detailsProductReducers,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
