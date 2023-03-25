@@ -9,7 +9,7 @@ function App() {
         <header className="row">
           <div>
             <NavLink className="brand" to="/">
-              amazona
+              Amazon
             </NavLink>
           </div>
           <div>
