@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { detailsProduct } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -17,6 +17,11 @@ const ProductScreen = () => {
   useEffect(() => {
     dispatch(detailsProduct(productId));
   }, [dispatch, productId]);
+
+  const navigate = useNavigate();
+  const addToCartHandler = () => {
+    navigate(`/cart/${productId}?qty=${qty}`);
+  };
   return (
     <div>
       {loading ? (
@@ -104,7 +109,12 @@ const ProductScreen = () => {
                         </div>
                       </li>
                       <li>
-                        <button className="primary block">Add to Cart</button>
+                        <button
+                          className="primary block"
+                          onClick={addToCartHandler}
+                        >
+                          Add to Cart
+                        </button>
                       </li>
                     </>
                   )}
