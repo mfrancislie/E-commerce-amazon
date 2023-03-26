@@ -2,6 +2,7 @@ import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import CartScreen from './screens/CartScreen';
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ function App() {
         </header>
         <main>
           <Routes>
+            <Route path="/cart/:id?" element={<CartScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/" element={<HomeScreen />} />
           </Routes>
