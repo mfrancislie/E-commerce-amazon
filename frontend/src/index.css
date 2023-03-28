@@ -112,6 +112,16 @@ a.brand {
   align-items: flex-start;
 }
 
+.row.start {
+  justify-content: flex-start;
+}
+.col-1 {
+  flex: 1 1 25rem;
+}
+.col-2 {
+  flex: 2 1 50rem;
+}
+
 .badge {
   background-color: #f02020;
   color: #ffffff;
