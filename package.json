@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/mfrancislie/E-commerce-amazon#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^7.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

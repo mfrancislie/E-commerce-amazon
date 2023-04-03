@@ -200,6 +200,9 @@ $ npm start
     7. create userSchema and userModel
     8. create userRoute
     9. Seed sample data
+    10. go to backend/data.js create sample users: []
+    11. npm install bcryptjs
+    12. npm install express-async-handler to wrap userRouter to fix loading /api/users/seed
 19. Create Sample Products In MongoDB
     1. create models/productModel.js
     2. create productSchema and productModel
