@@ -1,7 +1,25 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import data from './data.js';
+import userRouter from './models/routers/userRouter.js';
 
 const app = express();
+mongoose.connect(
+  process.env.MONGODB_URL || 'mongodb://127.0.0.1/Amazon-app-db',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
+
+app.use('/api/users', userRouter);
+
+// This middleware is an error catcher, so when there is an
+// error in routers in express async handler or error
+// will be redirected to this function or this middleware
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 
 app.get('/', (req, res) => {
   res.send('Server is Ready!');
