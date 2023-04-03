@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import data from './data.js';
+import productRouter from './models/routers/productRouter.js';
 import userRouter from './models/routers/userRouter.js';
 
 const app = express();
@@ -11,7 +11,10 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+// created products
+app.use('/api/products', productRouter);
 
+// created sample users
 app.use('/api/users', userRouter);
 
 // This middleware is an error catcher, so when there is an
