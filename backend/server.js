@@ -1,9 +1,19 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import productRouter from './models/routers/productRouter.js';
 import userRouter from './models/routers/userRouter.js';
 
+// defining express i need call dotenv.config()
+dotenv.config();
+
 const app = express();
+
+// by having this two middleware that all requests that contains data
+// the request will be translated to the record body in node application.
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 mongoose.connect(
   process.env.MONGODB_URL || 'mongodb://127.0.0.1/Amazon-app-db',
   {
