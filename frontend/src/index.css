@@ -198,7 +198,6 @@ img.large {
 }
 
 /* Form  */
-
 .form {
   max-width: 60rem;
   margin: 0 auto;
@@ -212,4 +211,32 @@ img.large {
 .form label {
   margin: 1rem;
   display: block;
+}
+
+/* dropdown */
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  display: none;
+  right: 0;
+  min-width: 12rem;
+  padding: 1rem;
+  z-index: 1;
+  background-color: #203040;
+  margin: 0;
+  margin-top: 0.4rem;
+  border-radius: 0.5rem;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown i {
+  margin: 5px;
 }
