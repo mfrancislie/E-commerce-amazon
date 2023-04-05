@@ -18,7 +18,7 @@ body {
     'footer';
   grid-template-columns: 1fr;
   grid-template-rows: 5rem 1fr 5rem;
-  height: 100%;
+  height: 100vh;
 }
 header {
   grid-area: header;
@@ -195,4 +195,21 @@ img.large {
 .alert-success {
   color: #20a020;
   background-color: #eeffe0;
+}
+
+/* Form  */
+
+.form {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+.form > div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.form label {
+  margin: 1rem;
+  display: block;
 }

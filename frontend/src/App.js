@@ -4,6 +4,7 @@ import ProductScreen from './screens/ProductScreen';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import CartScreen from './screens/CartScreen';
 import { useSelector } from 'react-redux';
+import SigninScreen from './screens/SigninScreen';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -24,13 +25,14 @@ function App() {
                 <span className="badge">{cartItems.length}</span>
               )}
             </NavLink>
-            <NavLink to="/sign">Sign In</NavLink>
+            <NavLink to="/signin">Sign In</NavLink>
           </div>
         </header>
         <main>
           <Routes>
             <Route path="/cart/:id?" element={<CartScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
+            <Route path="/signin" element={<SigninScreen />} />
             <Route path="/" element={<HomeScreen />} />
           </Routes>
         </main>
