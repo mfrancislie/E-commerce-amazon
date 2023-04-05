@@ -10,7 +10,13 @@ import {
   productListReducers,
   detailsProductReducers,
 } from './reducers/productReducers';
+import { userSigninReducer } from './reducers/userReducers';
 const initialState = {
+  userSignin: {
+    userInfo: localStorage.getItem('userInfo')
+      ? JSON.parse(localStorage.getItem('userInfo'))
+      : null,
+  },
   cart: {
     // I need to pass it to Jason that pass to convert it to array.
     cartItems: localStorage.getItem('cartItems')
@@ -23,6 +29,7 @@ const reducer = combineReducers({
   productList: productListReducers,
   productDetails: detailsProductReducers,
   cart: cartReducer,
+  userSignin: userSigninReducer,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
