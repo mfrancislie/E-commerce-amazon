@@ -19,6 +19,10 @@ const initialState = {
   },
 };
 
+// const reducer = ((state, action) => {
+//   return {products: data.products}
+// })
+
 const reducer = combineReducers({
   productList: productListReducers,
   productDetails: detailsProductReducers,
