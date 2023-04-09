@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import productRouter from './models/routers/productRouter.js';
 import userRouter from './models/routers/userRouter.js';
+import orderRouter from './models/routers/orderRouter.js';
 
 // defining express i need call dotenv.config()
 dotenv.config();
@@ -21,11 +22,14 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
-// created products
-app.use('/api/products', productRouter);
 
 // created sample users
 app.use('/api/users', userRouter);
+
+// created products
+app.use('/api/products', productRouter);
+
+app.use('/api/orders', orderRouter);
 
 // This middleware is an error catcher, so when there is an
 // error in routers in express async handler or error
