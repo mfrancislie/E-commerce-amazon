@@ -27,7 +27,7 @@ export const isAuth = (req, res, next) => {
         if (error) {
           res.status(401).send({ message: 'Invalid Token' });
         } else {
-          res.user = decode;
+          req.user = decode;
           // By calling next(), right after this, the pass user as a property of request to the next middleware
           next();
         }
