@@ -31,6 +31,11 @@ app.use('/api/products', productRouter);
 
 app.use('/api/orders', orderRouter);
 
+// for paypal
+app.get('/api/config/paypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+});
+
 // This middleware is an error catcher, so when there is an
 // error in routers in express async handler or error
 // will be redirected to this function or this middleware
