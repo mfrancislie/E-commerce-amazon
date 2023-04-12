@@ -6,7 +6,9 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducer';
-import orderCreateReducer from './reducers/orderReducer';
+import orderCreateReducer, {
+  orderDetailsReducer,
+} from './reducers/orderReducer';
 import {
   productListReducers,
   detailsProductReducers,
@@ -40,6 +42,7 @@ const reducer = combineReducers({
   userSignin: userSigninReducer,
   userRegister: userRegisterReducer,
   orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
