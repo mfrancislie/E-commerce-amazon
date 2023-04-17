@@ -254,3 +254,24 @@ img.large {
   border-top: 3px solid #f08000;
   color: #f08000;
 }
+
+/* table */
+
+.table {
+  width: 100%;
+  border-collapes: collapes;
+}
+.table tbody tr:nth-of-type(odd) {
+  background-color: #f4f4f4;
+}
+
+.table td,
+.table th {
+  text-align: left;
+  border: 0.1rem solid #e4e4e4;
+  padding: 0.5rem;
+}
+
+.table button {
+  margin: 0 0.2rem;
+}
