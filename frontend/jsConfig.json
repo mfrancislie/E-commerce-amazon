@@ -1,0 +1,7 @@
+// to improve coding experience by having this configuration, auto import functionality works perfect
+{
+    "compilerOptions": {
+        "target": "es6"
+    },
+    "exclude": ["node_modules"]
+}
