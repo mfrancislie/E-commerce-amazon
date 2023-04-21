@@ -65,6 +65,27 @@ function App() {
             ) : (
               <NavLink to="/signin">Sign In</NavLink>
             )}
+            {userInfo && userInfo.isAdmin && (
+              <div className="dropdown">
+                <NavLink to="/admin">
+                  Admin <i className="fa fa-caret-down"></i>
+                </NavLink>
+                <ul className="dropdown-content">
+                  <li>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/productlist">Products</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/orderlist">Orders</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/userlist">Users</NavLink>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </header>
         <main>
