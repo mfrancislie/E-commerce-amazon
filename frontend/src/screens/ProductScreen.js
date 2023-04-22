@@ -45,6 +45,9 @@ const ProductScreen = () => {
                   <h1>{product.name}</h1>
                 </li>
                 <li>
+                  <h1>{product.brand}</h1>
+                </li>
+                <li>
                   <Rating
                     rating={product.rating}
                     numReviews={product.numReviews}
