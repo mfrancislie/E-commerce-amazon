@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { detailsProduct } from '../actions/productActions';
+import { useNavigate, useParams } from 'react-router-dom';
+import { detailsProduct, updateProduct } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { PRODUCT_UPDATE_RESET } from '../constants/productsConstants';
 
 const ProductEditScreen = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const productId = params.id;
 
@@ -20,9 +22,20 @@ const ProductEditScreen = () => {
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate;
+
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!product || product._id !== productId) {
+    if (successUpdate) {
+      navigate('/productlist');
+    }
+    if (!product || product._id !== productId || successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
       dispatch(detailsProduct(productId));
     } else {
       setName(product.name);
@@ -33,11 +46,22 @@ const ProductEditScreen = () => {
       setBrand(product.brand);
       setDescription(product.description);
     }
-  }, [dispatch, product, productId]);
+  }, [dispatch, navigate, product, productId, successUpdate]);
 
   const updateHandler = (e) => {
     e.preventDefault();
-    // TODO: dispatch update product
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        category,
+        image,
+        brand,
+        countInStock,
+        price,
+        description,
+      })
+    );
   };
   return (
     <div>
@@ -45,6 +69,9 @@ const ProductEditScreen = () => {
         <div>
           <h1>Product {productId}</h1>
         </div>
+        {loadingUpdate && <LoadingBox></LoadingBox>}
+        {errorUpdate && <MessageBox variant="danger">{errorUpdate}</MessageBox>}
+
         {loading ? (
           <LoadingBox></LoadingBox>
         ) : error ? (
