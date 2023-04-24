@@ -1,9 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import path from 'path';
 import productRouter from './models/routers/productRouter.js';
 import userRouter from './models/routers/userRouter.js';
 import orderRouter from './models/routers/orderRouter.js';
+import uploadRouter from './models/routers/uploadRouter.js';
 
 // defining express i need call dotenv.config()
 dotenv.config();
@@ -22,6 +24,12 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+// upload file
+app.use('/api/uploads', uploadRouter);
+
+// to show upload image
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // created sample users
 app.use('/api/users', userRouter);
