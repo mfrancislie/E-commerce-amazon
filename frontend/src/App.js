@@ -17,6 +17,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import ProductEditScreen from './screens/ProductEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -45,7 +46,25 @@ function App() {
                 <span className="badge">{cartItems.length}</span>
               )}
             </NavLink>
-            {userInfo ? (
+            {userInfo && userInfo.isAdmin ? (
+              <div className="dropdown">
+                <NavLink to="#">
+                  {userInfo.name}
+                  <i className="fa fa-caret-down"></i>
+                </NavLink>
+                <ul className="dropdown-content">
+                  <li>
+                    <NavLink to="/profile">My Profile</NavLink>
+                  </li>
+
+                  <li>
+                    <NavLink to="/" onClick={signoutHandler}>
+                      Signout
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            ) : userInfo ? (
               <div className="dropdown">
                 <NavLink to="#">
                   {userInfo.name}
@@ -68,6 +87,7 @@ function App() {
             ) : (
               <NavLink to="/signin">Sign In</NavLink>
             )}
+
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <NavLink to="/admin">
@@ -102,6 +122,7 @@ function App() {
             <Route path="/payment" element={<PaymentMethodScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+            <Route path="/orderlist" element={<OrderListScreen />} />
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<ProfileScreen />} />
