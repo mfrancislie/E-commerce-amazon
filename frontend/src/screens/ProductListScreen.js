@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { createProduct, listProduct } from '../actions/productActions';
+import {
+  createProduct,
+  deleteProduct,
+  listProduct,
+} from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { PRODUCT_CREATE_RESET } from '../constants/productsConstants';
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_DELETE_RESET,
+} from '../constants/productsConstants';
 
 const ProductListScreen = () => {
   const navigate = useNavigate();
@@ -19,17 +26,29 @@ const ProductListScreen = () => {
     product: createdProduct,
   } = productCreate;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete;
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (successCreate) {
       dispatch({ type: PRODUCT_CREATE_RESET });
       navigate(`/product/${createdProduct._id}/edit`);
     }
+    if (successDelete) {
+      dispatch({ type: PRODUCT_DELETE_RESET });
+    }
     dispatch(listProduct());
-  }, [createdProduct, dispatch, navigate, successCreate]);
+  }, [createdProduct, dispatch, navigate, successCreate, successDelete]);
 
-  const deleteHandler = () => {
-    // TODO: dispatch delete action
+  const deleteHandler = (product) => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteProduct(product._id));
+    }
   };
 
   const createHandler = () => {
@@ -45,6 +64,9 @@ const ProductListScreen = () => {
           </button>
         </div>
       </div>
+      {loadingDelete && <LoadingBox></LoadingBox>}
+      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+
       {loadingCreate && <LoadingBox></LoadingBox>}
 
       {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
