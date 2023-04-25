@@ -1,9 +1,21 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import { isAuth } from '../../utils.js';
+import { isAdmin, isAuth } from '../../utils.js';
 import Order from '../orderModel.js';
 
 const orderRouter = express.Router();
+
+// list of orders
+orderRouter.get(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    // to define all orders
+    const orders = await Order.find({}).populate('user', 'name');
+    res.send(orders);
+  })
+);
 
 // order list history
 orderRouter.get(

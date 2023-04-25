@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { listOrderMine } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { listOrder } from '../actions/orderActions';
+import { useNavigate } from 'react-router-dom';
 
-const OrderHistoryScreen = () => {
+const OrderListScreen = () => {
   const navigate = useNavigate();
-  const orderMineList = useSelector((state) => state.orderMineList);
-  const { loading, error, orders } = orderMineList;
-  const dispatch = useDispatch();
+  const orderList = useSelector((state) => state.orderList);
+  const { loading, error, orders } = orderList;
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listOrderMine());
+    dispatch(listOrder());
   }, [dispatch]);
+
+  const deleteHandler = (order) => {
+    // TODO: dispatch order delete
+  };
   return (
     <div>
-      <h1>Order History</h1>
+      <div>
+        <h1>Order List</h1>
+      </div>
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -26,6 +32,7 @@ const OrderHistoryScreen = () => {
           <thead>
             <tr>
               <th>ID</th>
+              <th>USER</th>
               <th>DATE</th>
               <th>TOTAL</th>
               <th>PAID</th>
@@ -37,6 +44,7 @@ const OrderHistoryScreen = () => {
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
+                <td>{order.user.name}</td>
                 <td>{order.createdAt?.substring(0, 10)}</td>
                 <td>{order.totalPrice.toFixed(2)}</td>
                 <td>{order.isPaid ? order.paidAt?.substring(0, 10) : 'No'}</td>
@@ -53,6 +61,13 @@ const OrderHistoryScreen = () => {
                   >
                     Details
                   </button>
+                  <button
+                    type="button"
+                    className="small"
+                    onClick={() => deleteHandler(order)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -63,4 +78,4 @@ const OrderHistoryScreen = () => {
   );
 };
 
-export default OrderHistoryScreen;
+export default OrderListScreen;
