@@ -2,27 +2,43 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { listOrder } from '../actions/orderActions';
+import { deleteOrder, listOrder } from '../actions/orderActions';
 import { useNavigate } from 'react-router-dom';
+import { ORDER_DELETE_RESET } from '../constants/orderConstants';
 
 const OrderListScreen = () => {
   const navigate = useNavigate();
   const orderList = useSelector((state) => state.orderList);
   const { loading, error, orders } = orderList;
 
+  const orderDelete = useSelector((state) => state.orderDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = orderDelete;
+
   const dispatch = useDispatch();
   useEffect(() => {
+    if (successDelete) {
+      dispatch({ type: ORDER_DELETE_RESET });
+    }
     dispatch(listOrder());
-  }, [dispatch]);
+  }, [dispatch, successDelete]);
 
   const deleteHandler = (order) => {
-    // TODO: dispatch order delete
+    if (window.confirm('are you sure to delete?')) {
+      dispatch(deleteOrder(order._id));
+    }
   };
+
   return (
     <div>
       <div>
         <h1>Order List</h1>
       </div>
+      {loadingDelete && <LoadingBox></LoadingBox>}
+      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
