@@ -26,6 +26,7 @@ import {
   userRegisterReducer,
   userSigninReducer,
   userUpdateProfileReducer,
+  usersListReducer,
 } from './reducers/userReducers';
 const initialState = {
   userSignin: {
@@ -63,6 +64,7 @@ const reducer = combineReducers({
   productDelete: productDeleteReducer,
   orderDelete: orderDeleteReducer,
   orderDeliver: orderDeliverReducer,
+  usersList: usersListReducer,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
