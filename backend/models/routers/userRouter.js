@@ -3,9 +3,21 @@ import data from '../../data.js';
 import bcrypt from 'bcryptjs';
 import User from '../userModel.js';
 import expressAsyncHandler from 'express-async-handler';
-import { generateToken, isAuth } from '../../utils.js';
+import { generateToken, isAuth, isAdmin } from '../../utils.js';
 
 const userRouter = express.Router();
+
+// to define all users
+userRouter.get(
+  '/',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    // to define all orders
+    const users = await User.find({});
+    res.send(users);
+  })
+);
 
 userRouter.get(
   '/seed',
