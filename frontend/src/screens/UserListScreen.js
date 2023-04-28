@@ -1,22 +1,40 @@
 import React, { useEffect } from 'react';
-import { listUser } from '../actions/userActions';
+import { deleteUser, listUser } from '../actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { USER_DELETE_RESET } from '../constants/userConstants';
 
 const UserListScreen = () => {
   const usersList = useSelector((state) => state.usersList);
   const { loading, error, users } = usersList;
+
+  const userDelete = useSelector((state) => state.userDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = userDelete;
+
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch({ type: USER_DELETE_RESET });
     dispatch(listUser());
   }, [dispatch]);
 
+  const deleteHandler = (user) => {
+    dispatch(deleteUser(user._id));
+  };
   return (
     <div>
       <div>
         <h1>Users List</h1>
       </div>
+      {loadingDelete && <LoadingBox></LoadingBox>}
+      {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+      {successDelete && (
+        <MessageBox variant="success"> User Deleted Successfully</MessageBox>
+      )}
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
@@ -40,12 +58,16 @@ const UserListScreen = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.isSeller ? 'YES' : 'NO'}</td>
-                <td>{user._isAdmin ? 'YES' : 'NO'}</td>
+                <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                 <td>
                   <button type="button" className="small">
                     Edit
                   </button>
-                  <button type="button" className="small">
+                  <button
+                    type="button"
+                    className="small"
+                    onClick={() => deleteHandler(user)}
+                  >
                     Delete
                   </button>
                 </td>
