@@ -3,13 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { deleteOrder, listOrder } from '../actions/orderActions';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ORDER_DELETE_RESET } from '../constants/orderConstants';
 
 const OrderListScreen = () => {
+  const { pathname } = useLocation();
+  const sellerMode = pathname.indexOf('/seller') >= 0;
+
   const navigate = useNavigate();
   const orderList = useSelector((state) => state.orderList);
   const { loading, error, orders } = orderList;
+
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
 
   const orderDelete = useSelector((state) => state.orderDelete);
   const {
@@ -23,8 +29,8 @@ const OrderListScreen = () => {
     if (successDelete) {
       dispatch({ type: ORDER_DELETE_RESET });
     }
-    dispatch(listOrder());
-  }, [dispatch, successDelete]);
+    dispatch(listOrder({ seller: sellerMode ? userInfo._id : '' }));
+  }, [dispatch, sellerMode, successDelete, userInfo._id]);
 
   const deleteHandler = (order) => {
     if (window.confirm('are you sure to delete?')) {
@@ -58,7 +64,7 @@ const OrderListScreen = () => {
           </thead>
           <tbody>
             {orders.length === 0 ? (
-              <MessageBox variant="danger block">Empty Orders</MessageBox>
+              <MessageBox variant="danger">Empty Orders</MessageBox>
             ) : (
               orders.map((order) => (
                 <tr key={order._id}>

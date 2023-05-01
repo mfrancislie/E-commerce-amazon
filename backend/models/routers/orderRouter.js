@@ -1,6 +1,6 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import { isAdmin, isAuth } from '../../utils.js';
+import { isAdmin, isAuth, isSellerOrisAdmin } from '../../utils.js';
 import Order from '../orderModel.js';
 
 const orderRouter = express.Router();
@@ -9,10 +9,15 @@ const orderRouter = express.Router();
 orderRouter.get(
   '/',
   isAuth,
-  isAdmin,
+  isSellerOrisAdmin,
   expressAsyncHandler(async (req, res) => {
+    const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
     // to define all orders
-    const orders = await Order.find({}).populate('user', 'name');
+    const orders = await Order.find({ ...sellerFilter }).populate(
+      'user',
+      'name'
+    );
     res.send(orders);
   })
 );
@@ -35,6 +40,7 @@ orderRouter.post(
       res.status(400).send({ message: 'Cart is empty' });
     } else {
       const order = new Order({
+        seller: req.body.orderItems[0].seller,
         orderItems: req.body.orderItems,
         shippingAddress: req.body.shippingAddress,
         paymentMethod: req.body.paymentMethod,
@@ -91,7 +97,7 @@ orderRouter.put(
 orderRouter.delete(
   '/:id',
   isAuth,
-  isAdmin,
+  isSellerOrisAdmin,
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findByIdAndRemove(req.params.id);
     if (order) {
