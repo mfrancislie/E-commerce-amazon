@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../../data.js';
-import { isAdmin, isAuth } from '../../utils.js';
+import { isAdmin, isAuth, isSellerOrisAdmin } from '../../utils.js';
 import Product from '../productModel.js';
 
 const productRouter = express.Router();
@@ -10,8 +10,10 @@ const productRouter = express.Router();
 productRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
+    const seller = req.query.seller || '';
+    const sellerFilter = seller ? { seller } : {};
     // finding all product to send it to frontend
-    const products = await Product.find({});
+    const products = await Product.find({ ...sellerFilter });
     res.send(products);
   })
 );
@@ -42,10 +44,11 @@ productRouter.get(
 productRouter.post(
   '/',
   isAuth,
-  isAdmin,
+  isSellerOrisAdmin,
   expressAsyncHandler(async (req, res) => {
     const product = new Product({
       name: 'sample name' + Date.now(),
+      seller: req.user._id,
       category: 'sample category',
       brand: 'sample brand',
       image: '/images/p1.jpg',
@@ -65,7 +68,7 @@ productRouter.post(
 productRouter.put(
   '/:id',
   isAuth,
-  isAdmin,
+  isSellerOrisAdmin,
   expressAsyncHandler(async (req, res) => {
     const productId = req.params.id;
     const product = await Product.findById(productId);
@@ -89,7 +92,7 @@ productRouter.put(
 productRouter.delete(
   '/:id',
   isAuth,
-  isAdmin,
+  isSellerOrisAdmin,
   expressAsyncHandler(async (req, res) => {
     const product = await Product.findByIdAndRemove(req.params.id);
 
