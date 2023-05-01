@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   createProduct,
   deleteProduct,
@@ -13,7 +13,10 @@ import {
   PRODUCT_DELETE_RESET,
 } from '../constants/productsConstants';
 
-const ProductListScreen = () => {
+const ProductListScreen = (props) => {
+  const { pathname } = useLocation();
+  const sellerMode = pathname.indexOf('/seller') >= 0;
+
   const navigate = useNavigate();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
@@ -25,6 +28,9 @@ const ProductListScreen = () => {
     success: successCreate,
     product: createdProduct,
   } = productCreate;
+
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
 
   const productDelete = useSelector((state) => state.productDelete);
   const {
@@ -42,8 +48,16 @@ const ProductListScreen = () => {
     if (successDelete) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
-    dispatch(listProduct());
-  }, [createdProduct, dispatch, navigate, successCreate, successDelete]);
+    dispatch(listProduct({ seller: sellerMode ? userInfo._id : '' }));
+  }, [
+    createdProduct,
+    dispatch,
+    navigate,
+    sellerMode,
+    successCreate,
+    successDelete,
+    userInfo._id,
+  ]);
 
   const deleteHandler = (product) => {
     if (window.confirm('Are you sure to delete?')) {

@@ -20,6 +20,7 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
+import SellerRoute from './components/SellerRoute';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -48,6 +49,23 @@ function App() {
                 <span className="badge">{cartItems.length}</span>
               )}
             </NavLink>
+            {userInfo && userInfo.isSeller && (
+              <div className="dropdown">
+                <NavLink to="#">
+                  Seller
+                  <i className="fa fa-caret-down"></i>
+                </NavLink>
+                <ul className="dropdown-content">
+                  <li>
+                    <NavLink to="/productlist/seller">Products</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/orderlist/seller">Orders</NavLink>
+                  </li>
+                </ul>
+              </div>
+            )}
+
             {userInfo && userInfo.isAdmin ? (
               <div className="dropdown">
                 <NavLink to="#">
@@ -139,6 +157,15 @@ function App() {
             </Route>
             <Route path="/user/:id/edit" element={<AdminRoute />}>
               <Route path="/user/:id/edit" element={<UserEditScreen />} />
+            </Route>
+            <Route path="/productlist/seller" element={<SellerRoute />}>
+              <Route
+                path="/productlist/seller"
+                element={<ProductListScreen />}
+              />
+            </Route>
+            <Route path="/orderlist/seller" element={<SellerRoute />}>
+              <Route path="/orderlist/seller" element={<OrderListScreen />} />
             </Route>
             <Route path="/" element={<HomeScreen />} />
           </Routes>
