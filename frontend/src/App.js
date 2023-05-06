@@ -22,6 +22,8 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import SellerRoute from './components/SellerRoute';
 import SellerScreen from './screens/SellerScreen';
+import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -42,6 +44,9 @@ function App() {
             <NavLink className="brand" to="/">
               Amazon
             </NavLink>
+          </div>
+          <div>
+            <SearchBox />
           </div>
           <div>
             <NavLink to="/cart">
@@ -134,6 +139,7 @@ function App() {
         </header>
         <main>
           <Routes>
+            <Route path="/search/name/:name?" element={<SearchScreen />} />
             <Route path="/seller/:id" element={<SellerScreen />} />
             <Route path="/cart/:id?" element={<CartScreen />} />
             <Route path="/product/:id" exact element={<ProductScreen />} />
