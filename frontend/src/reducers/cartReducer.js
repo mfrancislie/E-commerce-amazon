@@ -1,5 +1,6 @@
 import {
   CART_ADD_ITEM,
+  CART_ADD_ITEM_FAIL,
   CART_EMPTY,
   CART_PAYMENT_METHOD,
   CART_REMOVE_ITEM,
@@ -15,6 +16,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       if (existItem) {
         return {
           ...state,
+          error: '',
           cartItems: state.cartItems.map((x) =>
             x.product === existItem.product ? item : x
           ),
@@ -22,11 +24,12 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       } else {
         // this code concatenate card items with the new item. So suppose that we have two items in cart items and we have a new one.
         // The result of this expression is going to be three items.
-        return { ...state, cartItems: [...state.cartItems, item] };
+        return { ...state, error: '', cartItems: [...state.cartItems, item] };
       }
     case CART_REMOVE_ITEM:
       return {
         ...state,
+        error: '',
         cartItems: state.cartItems.filter((x) => x.product !== action.payload),
       };
     case CART_SAVE_SHIPPING_ADDRESS:
@@ -34,7 +37,9 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
     case CART_PAYMENT_METHOD:
       return { ...state, paymentMethod: action.payload };
     case CART_EMPTY:
-      return { ...state, cartItems: [] };
+      return { ...state, error: '', cartItems: [] };
+    case CART_ADD_ITEM_FAIL:
+      return { ...state, error: action.payload };
     default:
       return state;
   }
