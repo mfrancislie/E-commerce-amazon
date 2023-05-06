@@ -65,11 +65,14 @@ const ProductScreen = () => {
                 <ul>
                   <li>
                     <h2>
-                      <Link to="/seller/:seller.id">{product.name}</Link>
+                      Seller{' '}
+                      <Link to={`/seller/${product.seller._id}`}>
+                        {product.seller.seller.name}
+                      </Link>
                     </h2>
                     <Rating
-                      rating={product.rating}
-                      numReviews={product.numReviews}
+                      rating={product.seller.seller.rating}
+                      numReviews={product.seller.seller.numReviews}
                     ></Rating>
                   </li>
                   <li>

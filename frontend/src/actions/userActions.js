@@ -16,6 +16,9 @@ import {
   USER_SIGNIN_REQUEST,
   USER_SIGNIN_SUCCESS,
   USER_SIGNOUT,
+  USER_TOPSELLER_LIST_FAIL,
+  USER_TOPSELLER_LIST_REQUEST,
+  USER_TOPSELLER_LIST_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
@@ -171,5 +174,26 @@ export const updatedUser = (user) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: USER_UPDATE_FAIL, payload: message });
+  }
+};
+
+export const listTopSellers = () => async (dispatch, getState) => {
+  dispatch({ type: USER_TOPSELLER_LIST_REQUEST });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    const { data } = await Axios.get('/api/users/top-sellers', {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    });
+    dispatch({ type: USER_TOPSELLER_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: USER_TOPSELLER_LIST_FAIL, payload: message });
   }
 };
