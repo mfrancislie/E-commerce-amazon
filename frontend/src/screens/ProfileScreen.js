@@ -4,6 +4,7 @@ import { detailsUser, updateUserProfile } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
+import Axios from 'axios';
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
@@ -60,6 +61,29 @@ const ProfileScreen = () => {
           sellerDescription,
         })
       );
+    }
+  };
+  const [loadingUpload, setLoadingUpload] = useState(false);
+  const [errorUpload, setErrorUpload] = useState('');
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const bodyFormData = new FormData();
+    bodyFormData.append('image', file);
+    setLoadingUpload(true);
+
+    try {
+      const { data } = await Axios.post('/api/uploads', bodyFormData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      });
+      setSellerLogo(data);
+      setLoadingUpload(false);
+    } catch (error) {
+      setErrorUpload(error.message);
+      setLoadingUpload(false);
     }
   };
   return (
@@ -144,6 +168,20 @@ const ProfileScreen = () => {
                     onChange={(e) => setSellerLogo(e.target.value)}
                   ></input>
                 </div>
+                <div>
+                  <label htmlFor="imageFile">Image File</label>
+                  <input
+                    id="imageFile"
+                    type="file"
+                    label="Choose Image Logo"
+                    onChange={uploadFileHandler}
+                  ></input>
+                  {loadingUpload && <LoadingBox></LoadingBox>}
+                  {errorUpload && (
+                    <MessageBox variant="danger">{errorUpload}</MessageBox>
+                  )}
+                </div>
+
                 <div>
                   <label htmlFor="sellerDescription">Seller Description</label>
                   <input

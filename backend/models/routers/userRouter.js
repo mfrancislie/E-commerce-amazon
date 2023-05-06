@@ -7,6 +7,16 @@ import { generateToken, isAuth, isAdmin } from '../../utils.js';
 
 const userRouter = express.Router();
 
+// top sellers carousel
+userRouter.get(
+  '/top-sellers',
+  expressAsyncHandler(async (req, res) => {
+    const topSellers = await User.find({ isSeller: true })
+      .sort({ 'seller.rating': -1 })
+      .limit(3);
+    res.send(topSellers);
+  })
+);
 // to define all users
 userRouter.get(
   '/',
