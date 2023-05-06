@@ -1,4 +1,7 @@
 import {
+  PRODUCT_CATEGORY_LIST_FAIL,
+  PRODUCT_CATEGORY_LIST_REQUEST,
+  PRODUCT_CATEGORY_LIST_SUCCESS,
   PRODUCT_CREATE_FAIL,
   PRODUCT_CREATE_REQUEST,
   PRODUCT_CREATE_SUCCESS,
@@ -18,13 +21,13 @@ import {
 import Axios from 'axios';
 
 export const listProduct =
-  ({ seller = '', name = '' }) =>
+  ({ seller = '', name = '', category = '' }) =>
   async (dispatch) => {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
     try {
       const { data } = await Axios.get(
-        `/api/products?seller=${seller}&name=${name}`
+        `/api/products?seller=${seller}&name=${name}&category=${category}`
       );
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
@@ -116,5 +119,15 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
         ? error.response.data.message
         : error.message;
     dispatch({ type: PRODUCT_DELETE_FAIL, payload: message });
+  }
+};
+
+export const listProductCategories = () => async (dispatch) => {
+  dispatch({ type: PRODUCT_CATEGORY_LIST_REQUEST });
+  try {
+    const { data } = await Axios.get('/api/products/categories');
+    dispatch({ type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: PRODUCT_CATEGORY_LIST_FAIL, payload: error.message });
   }
 };
