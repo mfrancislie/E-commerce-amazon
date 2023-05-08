@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProduct } from '../actions/productActions';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Product from '../components/Product';
@@ -9,6 +9,7 @@ import { prices, ratings } from '../Utils';
 import Rating from '../components/Rating';
 
 const SearchScreen = () => {
+  const navigate = useNavigate();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
@@ -25,6 +26,7 @@ const SearchScreen = () => {
     min = 0,
     max = 0,
     rating = 0,
+    order = 'newest',
   } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,17 +37,19 @@ const SearchScreen = () => {
         min,
         max,
         rating,
+        order,
       })
     );
-  }, [dispatch, name, category, min, max, rating]);
+  }, [dispatch, name, category, min, max, rating, order]);
 
   const getFilterUrl = (filter) => {
     const filterCategory = filter.category || category;
     const filterName = filter.name || name;
     const filterRating = filter.rating || rating;
+    const sortOrder = filter.order || order;
     const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
     const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-    return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}`;
+    return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}`;
   };
   return (
     <div>
@@ -57,6 +61,18 @@ const SearchScreen = () => {
         ) : (
           <div>{products.length} Results</div>
         )}
+        <div>
+          Sort by
+          <select
+            value={order}
+            onChange={(e) => navigate(getFilterUrl({ order: e.target.value }))}
+          >
+            <option value="newest">Newest Arivals</option>
+            <option value="lowest">Price: Low to High</option>
+            <option value="highest">Price: High to Low</option>
+            <option value="toprated">Avg. Customers Reviews</option>
+          </select>
+        </div>
         <div className="row top">
           <div className="col-1">
             <h3>Department</h3>

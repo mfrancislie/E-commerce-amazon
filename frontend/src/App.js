@@ -203,7 +203,7 @@ function App() {
               element={<SearchScreen />}
             />
             <Route
-              path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating"
+              path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
               element={<SearchScreen />}
             />
             <Route path="/seller/:id" element={<SellerScreen />} />
