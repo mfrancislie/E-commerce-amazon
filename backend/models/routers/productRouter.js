@@ -25,12 +25,19 @@ productRouter.get(
       req.query.max && Number(req.query.max) !== 0 ? Number(req.query.max) : 0;
     const priceFilter = min && max ? { price: { $gte: min, $lte: max } } : {};
 
+    const rating =
+      req.query.rating && Number(req.query.rating) !== 0
+        ? Number(req.query.rating)
+        : 0;
+    const ratingFilter = rating ? { rating: { $gte: rating } } : {};
+
     // finding all product to send it to frontend
     const products = await Product.find({
       ...sellerFilter,
       ...nameFilter,
       ...categoryFilter,
       ...priceFilter,
+      ...ratingFilter,
     }).populate('seller', 'seller.name seller.logo');
     res.send(products);
   })
