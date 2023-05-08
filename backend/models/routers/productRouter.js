@@ -31,6 +31,16 @@ productRouter.get(
         : 0;
     const ratingFilter = rating ? { rating: { $gte: rating } } : {};
 
+    const order = req.query.order || '';
+    const sortOrder =
+      order === 'lowest'
+        ? { price: 1 }
+        : order === 'highest'
+        ? { price: -1 }
+        : order === 'toprated'
+        ? { rating: -1 }
+        : { _id: -1 };
+
     // finding all product to send it to frontend
     const products = await Product.find({
       ...sellerFilter,
@@ -38,7 +48,9 @@ productRouter.get(
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
-    }).populate('seller', 'seller.name seller.logo');
+    })
+      .populate('seller', 'seller.name seller.logo')
+      .sort(sortOrder);
     res.send(products);
   })
 );
