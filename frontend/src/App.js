@@ -202,6 +202,10 @@ function App() {
               path="/search/category/:category/name/:name"
               element={<SearchScreen />}
             />
+            <Route
+              path="/search/category/:category/name/:name/min/:min/max/:max"
+              element={<SearchScreen />}
+            />
             <Route path="/seller/:id" element={<SellerScreen />} />
             <Route path="/cart/:id?" element={<CartScreen />} />
             <Route path="/product/:id" exact element={<ProductScreen />} />

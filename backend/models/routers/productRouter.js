@@ -19,11 +19,18 @@ productRouter.get(
     const seller = req.query.seller || '';
     const sellerFilter = seller ? { seller } : {};
 
+    const min =
+      req.query.min && Number(req.query.min) !== 0 ? Number(req.query.min) : 0;
+    const max =
+      req.query.max && Number(req.query.max) !== 0 ? Number(req.query.max) : 0;
+    const priceFilter = min && max ? { price: { $gte: min, $lte: max } } : {};
+
     // finding all product to send it to frontend
     const products = await Product.find({
       ...sellerFilter,
       ...nameFilter,
       ...categoryFilter,
+      ...priceFilter,
     }).populate('seller', 'seller.name seller.logo');
     res.send(products);
   })
