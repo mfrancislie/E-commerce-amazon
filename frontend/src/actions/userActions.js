@@ -177,17 +177,10 @@ export const updatedUser = (user) => async (dispatch, getState) => {
   }
 };
 
-export const listTopSellers = () => async (dispatch, getState) => {
+export const listTopSellers = () => async (dispatch) => {
   dispatch({ type: USER_TOPSELLER_LIST_REQUEST });
-  const {
-    userSignin: { userInfo },
-  } = getState();
   try {
-    const { data } = await Axios.get('/api/users/top-sellers', {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    });
+    const { data } = await Axios.get('/api/users/top-sellers');
     dispatch({ type: USER_TOPSELLER_LIST_SUCCESS, payload: data });
   } catch (error) {
     const message =
