@@ -21,6 +21,7 @@ import {
   productUpdateReducer,
   productDeleteReducer,
   productCategoryListReducer,
+  createProductReviewReducer,
 } from './reducers/productReducers';
 import {
   userDeleteReducer,
@@ -77,6 +78,7 @@ const reducer = combineReducers({
   userUpdate: userUpdateReducer,
   usersTopList: usersTopListReducer,
   productCategoryList: productCategoryListReducer,
+  createProductReview: createProductReviewReducer,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
