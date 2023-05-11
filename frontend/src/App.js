@@ -28,6 +28,7 @@ import { useEffect, useState } from 'react';
 import { listProductCategories } from './actions/productActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
+import MapScreen from './screens/MapScreen';
 
 function App() {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
@@ -217,6 +218,9 @@ function App() {
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             <Route path="/order/:id" element={<OrderScreen />} />
+            <Route path="/map" element={<PrivateRoute />}>
+              <Route path="/map" element={<MapScreen />} />
+            </Route>
             <Route path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<ProfileScreen />} />
             </Route>

@@ -11,6 +11,12 @@ const ShippingAddressScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
+  const [lat, setLat] = useState(shippingAddress.lat);
+  const [lng, setLng] = useState(shippingAddress.lng);
+
+  const userAddressMap = useSelector((state) => state.userAddressMap);
+  const { address: addressMap } = userAddressMap;
+
   // if user signout and you are trying to go localhost:5000/shipping page you will automaticaly back to signinpage
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -27,11 +33,47 @@ const ShippingAddressScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // TODO:
+
+    const newLat = addressMap ? addressMap.lat : lat;
+    const newLng = addressMap ? addressMap.lng : lng;
+    if (addressMap) {
+      setLat(addressMap.lat);
+      setLng(addressMap.lng);
+    }
+    let moveOn = true;
+    if (!newLat || !newLng) {
+      moveOn = window.confirm('You did set location on map.Continue?');
+    }
+
+    if (moveOn) {
+      dispatch(
+        saveShippingAddress({
+          fullName,
+          address,
+          city,
+          postalCode,
+          country,
+          lat: newLat,
+          lng: newLng,
+        })
+      );
+      navigate('/payment');
+    }
+  };
+
+  const chooseOnMap = () => {
     dispatch(
-      saveShippingAddress({ fullName, address, city, postalCode, country })
+      saveShippingAddress({
+        fullName,
+        address,
+        city,
+        postalCode,
+        country,
+        lat,
+        lng,
+      })
     );
-    navigate('/payment');
+    navigate('/map');
   };
 
   return (
@@ -95,6 +137,12 @@ const ShippingAddressScreen = () => {
             required
             onChange={(e) => setCountry(e.target.value)}
           ></input>
+        </div>
+        <div>
+          <label htmlFor="chooseOnMap">Location</label>
+          <button type="button" onClick={chooseOnMap}>
+            Choose on Map
+          </button>
         </div>
         <div>
           <label></label>

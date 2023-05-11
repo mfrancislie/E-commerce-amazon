@@ -24,6 +24,7 @@ import {
   createProductReviewReducer,
 } from './reducers/productReducers';
 import {
+  userAddressMapReducer,
   userDeleteReducer,
   userDetailsReducer,
   userRegisterReducer,
@@ -75,6 +76,7 @@ const reducer = combineReducers({
   usersTopList: usersTopListReducer,
   productCategoryList: productCategoryListReducer,
   createProductReview: createProductReviewReducer,
+  userAddressMap: userAddressMapReducer,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
