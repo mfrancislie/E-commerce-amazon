@@ -204,7 +204,7 @@ function App() {
               element={<SearchScreen />}
             />
             <Route
-              path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
+              path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
               element={<SearchScreen />}
             />
             <Route path="/seller/:id" element={<SellerScreen />} />
@@ -229,6 +229,15 @@ function App() {
             </Route>
             <Route path="/productlist" element={<AdminRoute />}>
               <Route path="/productlist" element={<ProductListScreen />} />
+            </Route>
+            <Route
+              path="/productlist/pageNumber/:pageNumber"
+              element={<AdminRoute />}
+            >
+              <Route
+                path="/productlist/pageNumber/:pageNumber"
+                element={<ProductListScreen />}
+              />
             </Route>
             <Route path="/userlist" element={<AdminRoute />}>
               <Route path="/userlist" element={<UserListScreen />} />

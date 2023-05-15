@@ -11,7 +11,7 @@ import Rating from '../components/Rating';
 const SearchScreen = () => {
   const navigate = useNavigate();
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const productCategoryList = useSelector((state) => state.productCategoryList);
   const {
@@ -27,6 +27,7 @@ const SearchScreen = () => {
     max = 0,
     rating = 0,
     order = 'newest',
+    pageNumber = 1,
   } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,18 +39,20 @@ const SearchScreen = () => {
         max,
         rating,
         order,
+        pageNumber,
       })
     );
-  }, [dispatch, name, category, min, max, rating, order]);
+  }, [dispatch, name, category, min, max, rating, order, pageNumber]);
 
   const getFilterUrl = (filter) => {
+    const filterPage = filter.page || pageNumber;
     const filterCategory = filter.category || category;
     const filterName = filter.name || name;
     const filterRating = filter.rating || rating;
     const sortOrder = filter.order || order;
     const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
     const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-    return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}`;
+    return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}/pageNumber/${filterPage}`;
   };
   return (
     <div>
@@ -150,6 +153,17 @@ const SearchScreen = () => {
                 <div className="row center">
                   {products.map((product) => (
                     <Product key={product._id} product={product}></Product>
+                  ))}
+                </div>
+                <div className="row center pagination">
+                  {[...Array(pages).keys()].map((x) => (
+                    <Link
+                      className={x + 1 === page ? 'active' : ''}
+                      key={x + 1}
+                      to={getFilterUrl({ page: x + 1 })}
+                    >
+                      {x + 1}
+                    </Link>
                   ))}
                 </div>
               </>
