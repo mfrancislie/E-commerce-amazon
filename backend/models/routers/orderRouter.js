@@ -1,6 +1,12 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import { isAdmin, isAuth, isSellerOrisAdmin } from '../../utils.js';
+import {
+  isAdmin,
+  isAuth,
+  isSellerOrisAdmin,
+  mailgun,
+  payOrderEmailTemplate,
+} from '../../utils.js';
 import Order from '../orderModel.js';
 
 const orderRouter = express.Router();
@@ -76,7 +82,10 @@ orderRouter.put(
   '/:id/pay',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'email name'
+    );
     if (order) {
       order.isPaid = true;
       order.paidAt = Date.now();
@@ -87,6 +96,25 @@ orderRouter.put(
         email_address: req.body.email_address,
       };
       const updatedOrder = await order.save();
+      try {
+        mailgun.messages().send(
+          {
+            from: 'Amazon <mg.yourdomain.com>',
+            to: ` ${order.user.name} <${order.user.email}>`,
+            subject: `New Order ${order._id}`,
+            html: payOrderEmailTemplate(order),
+          },
+          (error, body) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(body);
+            }
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
       res.send({ message: 'Order Paid', order: updatedOrder });
     } else {
       res.status(404).send({ message: 'Order not found' });
