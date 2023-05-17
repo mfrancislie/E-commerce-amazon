@@ -30,6 +30,8 @@ import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 import MapScreen from './screens/MapScreen';
 import DashboardScreen from './screens/DashboardScreen';
+import ChatBox from './components/ChatBox';
+import SupportScreen from './screens/SupportScreen';
 
 function App() {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
@@ -158,6 +160,9 @@ function App() {
                   <li>
                     <NavLink to="/userlist">Users</NavLink>
                   </li>
+                  <li>
+                    <Link to="/support">Support</Link>
+                  </li>
                 </ul>
               </div>
             )}
@@ -246,6 +251,9 @@ function App() {
             <Route path="/userlist" element={<AdminRoute />}>
               <Route path="/userlist" element={<UserListScreen />} />
             </Route>
+            <Route path="/support" element={<AdminRoute />}>
+              <Route path="/support" element={<SupportScreen />} />
+            </Route>
             <Route path="/user/:id/edit" element={<AdminRoute />}>
               <Route path="/user/:id/edit" element={<UserEditScreen />} />
             </Route>
@@ -261,7 +269,10 @@ function App() {
             <Route path="/" element={<HomeScreen />} />
           </Routes>
         </main>
-        <footer className="row center">All right reserved</footer>
+        <footer className="row center">
+          {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+          <div>All right reserved</div>{' '}
+        </footer>
       </div>
     </BrowserRouter>
   );
