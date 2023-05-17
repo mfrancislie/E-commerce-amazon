@@ -13,6 +13,7 @@ import orderCreateReducer, {
   orderListReducer,
   orderDeleteReducer,
   orderDeliverReducer,
+  orderSummaryReducer,
 } from './reducers/orderReducer';
 import {
   productListReducers,
@@ -77,6 +78,7 @@ const reducer = combineReducers({
   productCategoryList: productCategoryListReducer,
   createProductReview: createProductReviewReducer,
   userAddressMap: userAddressMapReducer,
+  orderSummary: orderSummaryReducer,
 });
 const composeEnhacer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = legacy_createStore(
