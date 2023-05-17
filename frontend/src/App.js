@@ -29,6 +29,7 @@ import { listProductCategories } from './actions/productActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 import MapScreen from './screens/MapScreen';
+import DashboardScreen from './screens/DashboardScreen';
 
 function App() {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(false);
@@ -229,6 +230,9 @@ function App() {
             </Route>
             <Route path="/productlist" element={<AdminRoute />}>
               <Route path="/productlist" element={<ProductListScreen />} />
+            </Route>
+            <Route path="/dashboard" element={<AdminRoute />}>
+              <Route path="/dashboard" element={<DashboardScreen />} />
             </Route>
             <Route
               path="/productlist/pageNumber/:pageNumber"

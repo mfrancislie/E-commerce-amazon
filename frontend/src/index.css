@@ -380,3 +380,36 @@ img.large {
   color: white;
   background: red;
 }
+
+/* Dashboard */
+.summary > li {
+  border: 1px solid #c0c0c0;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  flex: 1 1 20rem;
+}
+
+.summary-body {
+  font-size: 4rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.summary-title.color1 {
+  background-color: green;
+}
+
+.summary-title.color2 {
+  background-color: orange;
+}
+
+.summary-title.color3 {
+  background-color: red;
+}
+
+.summary-title {
+  color: white;
+  font-size: 2rem;
+  padding: 2rem;
+  margin: 3rem;
+}

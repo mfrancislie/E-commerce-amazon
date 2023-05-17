@@ -8,6 +8,8 @@ import {
   payOrderEmailTemplate,
 } from '../../utils.js';
 import Order from '../orderModel.js';
+import User from '../userModel.js';
+import Product from '../productModel.js';
 
 const orderRouter = express.Router();
 
@@ -25,6 +27,57 @@ orderRouter.get(
       'name'
     );
     res.send(orders);
+  })
+);
+
+orderRouter.get(
+  '/summary',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    // it gonna total all orders
+    const orders = await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          numOrders: { $sum: 1 },
+          totalSales: { $sum: '$totalPrice' },
+        },
+      },
+    ]);
+
+    // for total Users
+    const users = await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          numUsers: { $sum: 1 },
+        },
+      },
+    ]);
+
+    // for daily orders
+    const dailyOrders = await Order.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          orders: { $sum: 1 },
+          sales: { $sum: '$totalPrice' },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
+    // total Products
+    const productCategories = await Product.aggregate([
+      {
+        $group: {
+          _id: '$category',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    res.send({ orders, users, dailyOrders, productCategories });
   })
 );
 
