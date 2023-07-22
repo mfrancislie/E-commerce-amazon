@@ -5,7 +5,7 @@
   "description": "![amazona](/template/images/amazona.jpg)",
   "main": "index.js",
   "scripts": {
-    "builde": "cd backend && npm install && cd ../frontend && npm install && npm build",
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm build",
     "start": "nodemon --watch backend --exec node --experimental-modules backend/server.js",
     "test": "echo\"Error: no test specified\" && exit 1"
   },
