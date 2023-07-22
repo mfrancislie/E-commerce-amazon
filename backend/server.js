@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(
-  process.env.MONGODB_URL || 'mongodb://127.0.0.1/Amazon-app-db',
+  process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/Amazon-app-db',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
