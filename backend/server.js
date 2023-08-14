@@ -61,9 +61,15 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-app.get('/', (req, res) => {
-  res.send('Server is Ready!');
-});
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
+);
+
+// app.get('/', (req, res) => {
+//   res.send('Server is Ready!');
+// });
 
 // list of product
 app.get('/api/products', (req, res) => {
@@ -79,7 +85,7 @@ app.get('/api/products/:id', (req, res) => {
   }
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 // for live chating
 const httpServer = http.Server(app);
