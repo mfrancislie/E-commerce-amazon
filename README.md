@@ -1,13 +1,5 @@
 # Amazona ECommerce Website
 
-![amazona](/template/images/amazona.jpg)
-
-
-## Support
-
-- Q/A: https://webacademy.pro/amazona
-- Contact Instructor: [Basir](mailto:basir.jafarzadeh@gmail.com)
-
 ## Lessons
 
 1. Introduction to this course
