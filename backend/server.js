@@ -21,12 +21,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(
-  process.env.MONGODB_URL || 'mongodb://127.0.0.1/Amazon-app-db',
+  process.env.MONGODB_URL ||
+    'mongodb+srv://mern-amazon-user:mern-amazon-user@website.zlr15fq.mongodb.net/mern-amazon-user?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }
 );
+
 // upload file
 app.use('/api/uploads', uploadRouter);
 
