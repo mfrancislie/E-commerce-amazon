@@ -63,7 +63,6 @@ button {
   border-radius: 0.5rem;
   border: 0.1rem #a4a4a4 solid;
   font-size: 1.6rem;
-  margin: 5px;
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -318,6 +317,12 @@ img.large {
 
 .carousel .slide img {
   max-width: 30rem;
+}
+.carousel {
+  background: black;
+}
+.legend {
+  color: red;
 }
 
 /* Search */

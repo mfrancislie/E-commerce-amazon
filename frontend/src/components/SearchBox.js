@@ -10,22 +10,20 @@ const SearchBox = () => {
     navigate(`/search/name/${name}`);
   };
   return (
-    <div>
-      <form className="search" onSubmit={submitHandler}>
-        <div className="row">
-          <input
-            type="text"
-            id="q"
-            name="q"
-            placeholder="Enter Search"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <button type="submit" className="primary">
-            <i className="fa fa-search"></i>
-          </button>
-        </div>
-      </form>
-    </div>
+    <form className="search" onSubmit={submitHandler}>
+      <div className="row">
+        <input
+          type="text"
+          id="q"
+          name="q"
+          placeholder="Enter Search"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <button type="submit" className="primary">
+          <i className="fa fa-search"></i>
+        </button>
+      </div>
+    </form>
   );
 };
 
